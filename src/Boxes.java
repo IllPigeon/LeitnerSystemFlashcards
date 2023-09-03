@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Boxes implements displayInterface{
 
@@ -22,18 +24,22 @@ public class Boxes implements displayInterface{
             System.out.println("ERROR: Card does not exist");
             return null;
         }
+        if(getCards().size() == 0){
+            System.out.println("No cards to draw in box");
+        }
+
         getCards().get(index).display();
         return getCards().get(index);
     }
 
     public void addCard(Flashcard newCard){
-        cards.add(newCard);
+        getCards().add(newCard);
         System.out.println(newCard.getFront() + " added to "+ boxName);
     }
 
     //delete Card from array list
     public void delCard(Flashcard cardToDelete){
-        if(cards.size() == 0){
+        if(getCards().size() == 0){
             System.out.println("No card to remove");
         }
         cards.remove(cardToDelete);
@@ -46,9 +52,13 @@ public class Boxes implements displayInterface{
         System.out.println(cardToMove.getFront() +" moved successfully");
     }
 
+    public void drawCard(){
+
+    }
+
     @Override
     public void display() {
-        System.out.println("=== "+boxName+" ===");
+        System.out.println("=== "+getBoxName()+" ===");
         if (cards.size() == 0) {
             System.out.println(boxName + " is empty");
         } else {
@@ -56,6 +66,20 @@ public class Boxes implements displayInterface{
                 c.display();
             }
         }
-        System.out.println("=== End of "+ boxName + " ===");
+        System.out.println("=== End of "+ getBoxName() + " ===");
+    }
+
+    public static void boxMenu(){
+        Scanner scanner = new Scanner(System.in);
+        boolean menuFlag = true;
+        while(menuFlag){
+            int input = scanner.nextInt();
+            if (input == 1) {
+                System.out.println("Box 1");
+            }
+            else{
+                System.out.println("Box 2");
+            }
+        }
     }
 }
