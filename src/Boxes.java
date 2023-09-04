@@ -68,18 +68,4 @@ public class Boxes implements displayInterface{
         }
         System.out.println("=== End of "+ getBoxName() + " ===");
     }
-
-    public static void boxMenu(){
-        Scanner scanner = new Scanner(System.in);
-        boolean menuFlag = true;
-        while(menuFlag){
-            int input = scanner.nextInt();
-            if (input == 1) {
-                System.out.println("Box 1");
-            }
-            else{
-                System.out.println("Box 2");
-            }
-        }
-    }
 }

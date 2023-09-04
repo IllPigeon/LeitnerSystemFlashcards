@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.util.Random;
 public class LeitnerLogic {
 
+
     private static int numOfBoxes;
     private static Boxes[] boxCollection;
 
@@ -10,6 +11,7 @@ public class LeitnerLogic {
         numOfBoxes = input;
         boxCollection = new Boxes[numOfBoxes];
     }
+
 
     //used for creating boxes for leitner system
     private static void createBoxes(){
@@ -33,13 +35,18 @@ public class LeitnerLogic {
             }
         }
         //Adding 5 starting cards to box 1 by default
-
+        for(int i = 1; i < 6; i++){
+            boxCollection[0].getCards().add(new Flashcard("Front "+i, "Back "+i));
+        }
     }
+
 
     //acts as a method for users to either draw a random card from a box
     // or select a box to interact with or quit the program
     public static void mainMenu(){
-        createBoxes();
+        if(boxCollection == null){
+            createBoxes();
+        }
         Scanner scanner = new Scanner(System.in);
         boolean menuFlag = true;
         System.out.println("""
@@ -84,23 +91,48 @@ public class LeitnerLogic {
                         + " | # Of Cards: " + boxCollection[i].getCards().size());
             }
         }
+
+        System.out.println(numOfBoxes + 1 +".) Back to Main Menu");
         while(menuFlag){
             int input = scanner.nextInt();
-            switch (input) {
-                case 1 -> System.out.println("Card flipped");
-                case 2 -> System.out.println("Card Modified");
-                case 3 -> {
-                    System.out.println("Viewing Boxes...");
-                    menuFlag = false;
-                    scanner.close();
-                }
+            if(input == numOfBoxes + 1){
+                menuFlag = false;
+                System.out.println("Going to Main Menu...");
+                mainMenu();
             }
+            else if (boxCollection[input-1] != null){
+                menuFlag = false;
+                cardBoxMenu(boxCollection[input-1]);
+            }
+            else{
+                System.out.println("Invalid choice");
+            }
+//            switch (input) {
+//                case 1 -> System.out.println("Card flipped");
+//                case 2 -> System.out.println("Card Modified");
+//                case 3 -> {
+//                    System.out.println("Viewing Boxes...");
+//                    menuFlag = false;
+//                    scanner.close();
+//                }
+//            }
         }
     }
 
+    public static void cardBoxMenu(Boxes selectedBox){
+        Scanner scanner = new Scanner(System.in);
+        boolean menuFlag = true;
+        System.out.println("Pick a Card or Create One!");
+        selectedBox.display();
+        while(menuFlag){
+
+        }
+    }
+
+
     //Menu used for displaying what user can do with card that they select from a box
     //ideally this will display upon a card being drawn
-    public static void cardMenu(){
+    public static void cardMenu(Flashcard selectedCard){
         Scanner scanner = new Scanner(System.in);
         boolean menuFlag = true;
         System.out.println("""
@@ -109,7 +141,6 @@ public class LeitnerLogic {
                 1.) Flip Card
                 2.) Edit Card
                 3.) Move Card
-                4.)Create Card
                 5.) View Boxes""");
         while(menuFlag){
             int input = scanner.nextInt();
