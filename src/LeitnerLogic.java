@@ -1,7 +1,7 @@
 import java.util.Scanner;
 import java.util.Random;
 public class LeitnerLogic {
-
+    private static final Scanner scanner = new Scanner(System.in);
 
     private static int numOfBoxes;
     private static Boxes[] boxCollection;
@@ -20,7 +20,6 @@ public class LeitnerLogic {
                 ==============================
                 To begin, input whether you want 3, 4 or 5 boxes to contain flashcards.
                 """);
-        Scanner scanner = new Scanner (System.in);
         while(true){
             initializeBoxes(scanner.nextInt());
             if(numOfBoxes >= 3 && numOfBoxes <= 5){
@@ -47,7 +46,6 @@ public class LeitnerLogic {
         if(boxCollection == null){
             createBoxes();
         }
-        Scanner scanner = new Scanner(System.in);
         boolean menuFlag = true;
         System.out.println("""
                 LEITNER SYSTEM FLASH CARDS
@@ -75,7 +73,6 @@ public class LeitnerLogic {
     }
 
     public static void boxMenu(){
-        Scanner scanner = new Scanner(System.in);
         boolean menuFlag = true;
         System.out.println("""
                 SELECT A BOX
@@ -120,20 +117,32 @@ public class LeitnerLogic {
     }
 
     public static void cardBoxMenu(Boxes selectedBox){
-        Scanner scanner = new Scanner(System.in);
         boolean menuFlag = true;
         System.out.println("Pick a Card or Create One!");
         selectedBox.display();
         while(menuFlag){
-
+            int input = scanner.nextInt();
+            if(selectedBox.getCards().get(input) != null){
+                cardMenu(selectedBox.getCards().get(input));
+            }
+            else if(input == selectedBox.getCards().size() + 1){
+                addCardMenu();
+            }
+            else if(input == selectedBox.getCards().size() + 2){
+                System.out.println("Going Back to Box Menu");
+                boxMenu();
+            }
         }
+    }
+
+    public static void addCardMenu(){
+
     }
 
 
     //Menu used for displaying what user can do with card that they select from a box
     //ideally this will display upon a card being drawn
     public static void cardMenu(Flashcard selectedCard){
-        Scanner scanner = new Scanner(System.in);
         boolean menuFlag = true;
         System.out.println("""
                 CARD OPTIONS
