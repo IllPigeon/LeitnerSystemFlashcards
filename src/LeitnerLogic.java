@@ -35,7 +35,7 @@ public class LeitnerLogic {
         }
         //Adding 5 starting cards to box 1 by default
         for(int i = 1; i < 6; i++){
-            boxCollection[0].getCards().add(new Flashcard("Front "+i, "Back "+i));
+            boxCollection[0].getCards().add(new Flashcard("Front "+i, "Back "+i, i));
         }
     }
 
@@ -61,7 +61,6 @@ public class LeitnerLogic {
                     menuFlag = false;
                     System.out.println("Checking Boxes...");
                     boxMenu();
-                    scanner.close();
                 }
                 case 3 -> {
                     System.out.println("Buh-Bye!");
@@ -104,22 +103,18 @@ public class LeitnerLogic {
             else{
                 System.out.println("Invalid choice");
             }
-//            switch (input) {
-//                case 1 -> System.out.println("Card flipped");
-//                case 2 -> System.out.println("Card Modified");
-//                case 3 -> {
-//                    System.out.println("Viewing Boxes...");
-//                    menuFlag = false;
-//                    scanner.close();
-//                }
-//            }
         }
     }
 
     public static void cardBoxMenu(Boxes selectedBox){
         boolean menuFlag = true;
-        System.out.println("Pick a Card or Create One!");
+        int cardNum = 1;
+        System.out.println("""
+                PICK CARD OR CREATE ONE
+                ==========================""");
         selectedBox.display();
+        System.out.println(selectedBox.getCards().size() + 1 +".) "+"Create a new card\n" +
+                selectedBox.getCards().size() + 2 + ".) "+"View Boxes\n");
         while(menuFlag){
             int input = scanner.nextInt();
             if(selectedBox.getCards().get(input) != null){
@@ -129,7 +124,8 @@ public class LeitnerLogic {
                 addCardMenu();
             }
             else if(input == selectedBox.getCards().size() + 2){
-                System.out.println("Going Back to Box Menu");
+                menuFlag = false;
+                System.out.println("Viewing boxes...");
                 boxMenu();
             }
         }
@@ -159,10 +155,15 @@ public class LeitnerLogic {
                 case 3 -> {
                     System.out.println("Viewing Boxes...");
                     menuFlag = false;
-                    scanner.close();
                     boxMenu();
                 }
             }
         }
     }
+
+    public void drawCard(){
+
+    }
 }
+
+

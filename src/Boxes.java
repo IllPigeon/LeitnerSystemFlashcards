@@ -52,10 +52,6 @@ public class Boxes implements displayInterface{
         System.out.println(cardToMove.getFront() +" moved successfully");
     }
 
-    public void drawCard(){
-
-    }
-
     @Override
     public void display() {
         System.out.println("=== "+getBoxName()+" ===");
