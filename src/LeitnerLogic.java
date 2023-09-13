@@ -113,26 +113,43 @@ public class LeitnerLogic {
                 PICK CARD OR CREATE ONE
                 ==========================""");
         selectedBox.display();
-        System.out.println(selectedBox.getCards().size() + 1 +".) "+"Create a new card\n" +
-                selectedBox.getCards().size() + 2 + ".) "+"View Boxes\n");
+        System.out.println((selectedBox.getCards().size() + 1) +".) "+"Create a new card\n" +
+                (selectedBox.getCards().size()+2)+ ".) "+"View Boxes\n");
         while(menuFlag){
             int input = scanner.nextInt();
-            if(selectedBox.getCards().get(input) != null){
-                cardMenu(selectedBox.getCards().get(input));
-            }
-            else if(input == selectedBox.getCards().size() + 1){
-                addCardMenu();
-            }
-            else if(input == selectedBox.getCards().size() + 2){
+            if(input == selectedBox.getCards().size() + 2){
                 menuFlag = false;
                 System.out.println("Viewing boxes...");
                 boxMenu();
+
+            }
+            else if(input == selectedBox.getCards().size() + 1){
+                addCardMenu(selectedBox);
+            }
+            else if(selectedBox.getCards().get(input) != null){
+                cardMenu(selectedBox.getCards().get(input));
+            }
+            else{
+                System.out.println("Invalid card or command!");
             }
         }
     }
 
-    public static void addCardMenu(){
-
+    public static void addCardMenu(Boxes selectedBox){
+        //consuming leftover newline character from scanner for int input
+        scanner.nextLine();
+        System.out.println("FRONT OF CARD\n " + "==========================");
+        String front = scanner.nextLine();
+        System.out.println("BACK OF CARD\n " + "==========================");
+        String back = scanner.nextLine();
+        if(selectedBox.getCards().size() == 0){
+            selectedBox.getCards().add(new Flashcard(front, back, 1));
+            cardBoxMenu(selectedBox);
+        }
+        else{
+            selectedBox.getCards().add(new Flashcard(front, back, selectedBox.getCards().size() + 1));
+            cardBoxMenu(selectedBox);
+        }
     }
 
 
