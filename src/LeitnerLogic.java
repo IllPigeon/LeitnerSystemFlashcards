@@ -58,7 +58,6 @@ public class LeitnerLogic {
             switch (input) {
                 case 1 -> System.out.println("Drew a card");
                 case 2 -> {
-                    menuFlag = false;
                     System.out.println("Checking Boxes...");
                     boxMenu();
                 }
@@ -92,12 +91,10 @@ public class LeitnerLogic {
         while(menuFlag){
             int input = scanner.nextInt();
             if(input == numOfBoxes + 1){
-                menuFlag = false;
                 System.out.println("Going to Main Menu...");
                 mainMenu();
             }
             else if (boxCollection[input-1] != null){
-                menuFlag = false;
                 cardBoxMenu(boxCollection[input-1]);
             }
             else{
@@ -118,19 +115,88 @@ public class LeitnerLogic {
         while(menuFlag){
             int input = scanner.nextInt();
             if(input == selectedBox.getCards().size() + 2){
-                menuFlag = false;
                 System.out.println("Viewing boxes...");
                 boxMenu();
-
             }
             else if(input == selectedBox.getCards().size() + 1){
                 addCardMenu(selectedBox);
             }
             else if(selectedBox.getCards().get(input) != null){
-                cardMenu(selectedBox.getCards().get(input));
+                System.out.println("Showing cards...");
+                cardMenu(selectedBox.getCards().get(input), selectedBox);
             }
             else{
                 System.out.println("Invalid card or command!");
+            }
+        }
+    }
+
+    //Used for moving selected card from current box to selected destination box in function.
+    public static void moveCardBoxMenu(Flashcard selectedCard, Boxes currentBox){
+        boolean menuFlag = true;
+        System.out.println("""
+                SELECT A BOX
+                ==========================
+                """);
+        for(int i = 0; i < numOfBoxes; i++){
+            if(i == 0){
+                System.out.println(1+".) "+boxCollection[i].getBoxName()
+                        + " | # Of Cards: " + boxCollection[i].getCards().size());
+            }
+            else{
+                System.out.println((i+1)+".) "+boxCollection[i].getBoxName()
+                        + " | # Of Cards: " + boxCollection[i].getCards().size());
+            }
+        }
+
+        System.out.println(numOfBoxes + 1 +".) Back to Main Menu");
+        while(menuFlag){
+            int input = scanner.nextInt();
+            if(input == numOfBoxes + 1){
+                System.out.println("Cancel Move");
+                mainMenu();
+            }
+            else if (boxCollection[input-1] != null){
+                System.out.println("Moving card...");
+                currentBox.moveCard(selectedCard, boxCollection[input - 1]);
+            }
+            else{
+                System.out.println("Invalid choice");
+            }
+        }
+    }
+
+
+    //Menu used for displaying what user can do with card that they select from a box
+    //ideally this will display upon a card being drawn
+    public static void cardMenu(Flashcard selectedCard, Boxes selectedBox){
+        boolean menuFlag = true;
+        System.out.println("""
+                CARD OPTIONS
+                ==========================
+                1.) Flip Card
+                2.) Edit Card
+                3.) Move Card
+                4.) View Boxes""");
+        while(menuFlag){
+            int input = scanner.nextInt();
+            switch (input) {
+                case 1 -> {
+                    System.out.println("Card Flipped");
+                    selectedCard.flipCard();
+                }
+                case 2 -> {
+                    System.out.println("Modifying card...");
+                    editCardMenu(selectedCard, selectedBox);
+                }
+                case 3 ->{
+                    System.out.println("Moving card...");
+
+                }
+                case 4 -> {
+                    System.out.println("Viewing Boxes...");
+                    boxMenu();
+                }
             }
         }
     }
@@ -152,28 +218,36 @@ public class LeitnerLogic {
         }
     }
 
-
-    //Menu used for displaying what user can do with card that they select from a box
-    //ideally this will display upon a card being drawn
-    public static void cardMenu(Flashcard selectedCard){
+    public static void editCardMenu(Flashcard selectedCard, Boxes selectedBox){
         boolean menuFlag = true;
+        System.out.println("Front: " + selectedCard.getFront());
+        System.out.println("Back: " + selectedCard.getBack());
+        System.out.println("=====================");
         System.out.println("""
-                CARD OPTIONS
-                ==========================
-                1.) Flip Card
-                2.) Edit Card
-                3.) Move Card
-                5.) View Boxes""");
+                1.) Edit front
+                2.) Edit back
+                3.) Back to cards
+                """);
         while(menuFlag){
             int input = scanner.nextInt();
-            switch (input) {
-                case 1 -> System.out.println("Card flipped");
-                case 2 -> System.out.println("Card Modified");
-                case 3 -> {
-                    System.out.println("Viewing Boxes...");
-                    menuFlag = false;
-                    boxMenu();
-                }
+            if(input == 1){
+                System.out.println("Modifying Front");
+                scanner.nextLine();
+                String front = scanner.nextLine();
+                selectedCard.setFront(front);
+            }
+            else if(input == 2){
+                System.out.println("Modifying Back...");
+                scanner.nextLine();
+                String back = scanner.nextLine();
+                selectedCard.setBack(back);
+            }
+            else if(input == 3){
+                System.out.println("Viewing Cards...");
+                cardBoxMenu(selectedBox);
+            }
+            else{
+                System.out.println("INVALID INPUT");
             }
         }
     }

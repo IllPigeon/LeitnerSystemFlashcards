@@ -36,8 +36,8 @@ public class Flashcard implements displayInterface {
 
     //false is front, true is back
     //function acts as a setter for the face of the card object, which effects what is displayed upon the card
-    public void flipCard(boolean cardFace){
-        this.face = cardFace;
+    public void flipCard(){
+        this.face = !this.face;
     }
 
     @Override
