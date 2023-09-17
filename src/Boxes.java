@@ -47,8 +47,8 @@ public class Boxes implements displayInterface{
     }
 
     public void moveCard(Flashcard cardToMove, Boxes boxDestination){
-        delCard(cardToMove);
-        boxDestination.addCard(cardToMove);
+        cards.remove(cardToMove);
+        boxDestination.getCards().add(cardToMove);
         System.out.println(cardToMove.getFront() +" moved successfully");
     }
 

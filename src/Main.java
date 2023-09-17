@@ -1,11 +1,6 @@
 public class Main {
     //TODO: Make logic for moving cards to different boxes in leitner system
     //TODO: Create GUI for cards
-    static Boxes box1 = new Boxes("Box 1");
-    static Boxes box2 = new Boxes("Box 2");
-    static Boxes box3 = new Boxes("Box 3");
-    static Boxes box4 = new Boxes("Box 4");
-    static Boxes box5 = new Boxes("Box 5");
 
     public static void main(String[] args) {
 
